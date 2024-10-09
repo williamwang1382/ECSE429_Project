@@ -107,48 +107,6 @@ def test_todos_put():
 
 
 
-# Update the todo with new values
-def test_todos_put_update():
-
-    # Create a new todo
-    new_todo = {
-        "title": "test put update before 1",
-        "doneStatus": False,
-        "description": "test put update 1, before test"
-    }
-
-    response = requests.post(url, json=new_todo)
-
-    res = response.json()
-
-    # Check if the new todo has the correct values
-    assert res['title'] == new_todo['title']
-    assert res['doneStatus'] == str(new_todo['doneStatus']).lower()
-    assert res['description'] == new_todo['description']
-
-    # Update the todo
-    new_todo = {
-        "title": "test put update after 1",
-        "doneStatus": True,
-        "description": "test put update 1, after test"
-    }
-
-    response = requests.put(url+"/" + str(res['id']), json=new_todo)
-
-    res = response.json()
-
-    # Check if the new todo has the correct values
-    assert res['title'] == new_todo['title']
-    assert res['doneStatus'] == str(new_todo['doneStatus']).lower()
-    assert res['description'] == new_todo['description']
-
-    # Delete the todo
-    response = requests.delete(url + "/" + str(res['id']))
-    assert response.status_code == 200
-
-
-
-
 def test_todos_post():
         new_todo = {
         "title": "test post 1",
@@ -223,15 +181,59 @@ def test_todos_post_empty_title():
     }
 
     response = requests.post(url, json=new_todo)
-
+    assert response.status_code == 400
     res = response.json()
 
-    # Check if the new todo has the correct values
-    assert response.status_code == 400
     print("================================================================================")
     print("empty title error status: ", response.status_code)
 
 
+def test_todos_post_no_title():
+    new_todo = {
+        "doneStatus": False,
+        "description": "test post no title"
+    }
+
+    response = requests.post(url, json=new_todo)
+    assert response.status_code == 400
+    res = response.json()
+
+    print("================================================================================")
+    print("no title error status: ", response.status_code)
+
+
+# Check if we can post a todo without doneStatus, should be allowed as it is not listed as mandatory
+def test_todos_post_empty_doneStatus():
+
+
+    new_todo = {
+        "title": "test post empty doneStatus",
+        "description": "test post empty doneStatus"
+    }
+
+
+    print("================================================================================")
+    print("test_todos_post_empty_doneStatus new todo: ", new_todo)
+
+
+    # Get all todos
+    response = requests.get(url)
+    assert response.status_code == 200
+
+    print("\nall todos BEFORE adding new todo: ", response.json())
+
+    response = requests.post(url, json=new_todo)
+    assert response.status_code == 201
+    id_value = response.json()['id']
+    
+    # Get all todos
+    response = requests.get(url)
+    assert response.status_code == 200
+    print("\nall todos AFTER adding new todo: ", response.json())
+
+    # Delete the todo
+    response = requests.delete(url + "/" + id_value)
+    assert response.status_code == 200
 
 
 # Check if delete url works, should fail

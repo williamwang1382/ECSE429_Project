@@ -3,6 +3,21 @@ from test_todo_module_basic import url
 
 
 
+# Check if put request with new id works, should not be allowed
+def test_todos_put_new_todo():
+    # Create a new todo
+    new_todo = {
+        "title": "test put new todo",
+        "doneStatus": False,
+        "description": "test put new todo"
+    }
+    response = requests.post(url + "/20", json=new_todo)
+    assert response.status_code == 404
+    print("================================================================================")
+    print("test_todos_put_new_todo:\n new todo created with id 20: " + str(new_todo))
+    print("\nstatus code: ", response.status_code)
+
+
 
 
 # Amend/update existing todo with put
