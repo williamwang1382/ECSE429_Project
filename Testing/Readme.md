@@ -16,5 +16,6 @@ installation:
 
 $ pip install pytest
 
-$ pip install pytest-random-order
-```
+```$ pip install pytest
+
+```$ pip install pytest-random-order
