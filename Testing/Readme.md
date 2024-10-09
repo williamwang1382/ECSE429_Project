@@ -1,8 +1,9 @@
 Testing requirements:
 
-- Python 3.6
+- Python
 - Pytest
 - Pytest-random-order
+- Requests
 
 To run the tests, execute the following command:
 
@@ -14,11 +15,12 @@ pytest -s --random-order
 
 installation:
 
-$ pip install pytest
-
 ```
 $ pip install pytest
 ```
 ```
 $ pip install pytest-random-order
+```
+```
+$ pip install requests
 ```
