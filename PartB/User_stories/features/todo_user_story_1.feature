@@ -7,7 +7,6 @@ As a user I want to be able to add a task I want to complete to a todo list
   
   Background:
     Given The Thingifier Rest API is running
-    And the webpage with the todo list is open
     And the todo list is populated with at least the following default todo instances:
     | project_id | title                | doneStatus | description |
     | 2          | file paperwork       | false      |             |
@@ -16,7 +15,7 @@ As a user I want to be able to add a task I want to complete to a todo list
 
     # Normal flow
     Scenario: Add a new todo with all valid values
-        When I send a POST request to the API for a new todo with a "<valid project_id>" value, a valid "<title>" value, a valid "<doneStatus>" value and a valid "<description>" value in the JSON request body
+        When I send a POST request to the API for a new todo with a valid "<title>" value, a valid "<doneStatus>" value and a valid "<description>" value in the JSON request body
         Then the new todo should be added to the todo list with the corresponding project_id, title, doneStatus and description values
         And the API should have a return status code of 201
 

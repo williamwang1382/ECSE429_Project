@@ -7,7 +7,6 @@ As a user I want to be able to delete a todo task that I added by mistake or no 
   
   Background:
     Given The Thingifier Rest API is running
-    And the webpage with the todo list is open
     And the todo list is populated with at least the following default todo instances:
     | project_id | title                | doneStatus | description |
     | 2          | file paperwork       | false      |             |
@@ -17,7 +16,7 @@ As a user I want to be able to delete a todo task that I added by mistake or no 
     # Normal flow
     Scenario: Delete a todo with a valid project_id value
         When I send a DELETE request to the Rest API with a "<project_id>" value that exists in the todo list
-        Then the default todo instance with the project_id value of "1" should be deleted from the todo list
+        Then the todo instance with the corresponding project_id value of should be deleted from the todo list
         And the API should have a return status code of 200
 
 
