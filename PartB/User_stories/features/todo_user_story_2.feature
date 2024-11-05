@@ -30,7 +30,7 @@ As a user I want to be able to delete a todo task that I added by mistake or no 
     # Error flow
     Scenario: Delete a todo with a non integer project_id value
         When I send a DELETE request to the Rest API with a "<project_id>" value of "Hello World" and there is no todo instance with that project_id value
-        Then the API should have a return status code of 400
+        Then the API should have a return status code of 404
         And There should not be any changes to the todo list
 
     

@@ -6,18 +6,6 @@ url="http://localhost:4567/todos"
 
 
 
-# @given(u'The Thingifier Rest API is running')
-# def step_impl(context):
-#     response = requests.get(url)
-#     assert response.status_code == 200
-
-# @given(u'the todo list is populated with at least the following default todo instances')
-# def step_impl(context):
-#     response = requests.get(url)
-
-#     # Check if the todo list has at least 2 default todo instances
-#     assert len(response.json()['todos']) >= 2
-
 # Normal flow
 @when(u'I send a DELETE request to the Rest API with a "<project_id>" value that exists in the todo list')
 def step_impl(context):
@@ -52,7 +40,7 @@ def step_impl(context):
 def step_impl(context):
     # Add new dummy node
     new_todo = {
-        "title": "US2 test delete todo with valid project_id",
+        "title": "US2 test delete todo with already deleted project_id",
         "doneStatus": False,
         "description": "test delete todo"
     }
@@ -82,3 +70,14 @@ def step_impl(context):
     # Get number of todos
     response = requests.get(url)
     assert len(response.json()['todos']) == context.num_todos
+
+
+# Error flow
+@when(u'I send a DELETE request to the Rest API with a "<project_id>" value of "Hello World" and there is no todo instance with that project_id value')
+def step_impl(context):
+    # Get number of todos
+    response = requests.get(url)
+    context.num_todos = len(response.json()['todos'])
+    context.response = requests.delete(url + "/Hello World")
+    # print("STAUTS CODE VALL", context.response.status_code)
+
