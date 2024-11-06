@@ -103,7 +103,6 @@ def step_impl(context):
     # Get the todo
     response = requests.get(url+ "/" +str(context.id_value))
     res = response.json()['todos'][0]
-    print(res)
     assert res['title'] != context.title
     assert res['doneStatus'] != str(context.doneStatus).lower()
     assert res['description'] != context.description

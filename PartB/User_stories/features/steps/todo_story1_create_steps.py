@@ -1,5 +1,6 @@
 import requests
 from behave import *
+from requests.exceptions import ConnectionError, Timeout
 
 url="http://localhost:4567/todos"
 
@@ -8,8 +9,14 @@ url="http://localhost:4567/todos"
 
 @given(u'The Thingifier Rest API is running')
 def step_impl(context):
-    response = requests.get(url)
-    assert response.status_code == 200
+
+    try:
+        response = requests.get(url)
+        assert response.status_code == 200
+    except ConnectionError:
+        raise RuntimeError("API is not running. Please start the API and try again.")
+    except Timeout:
+        raise RuntimeError("API connection timed out. Please ensure the API is reachable.")
 
 @given(u'the todo list is populated with at least the following default todo instances')
 def step_impl(context):
@@ -34,7 +41,7 @@ def step_impl(context):
 
 @then(u'the new todo should be added to the todo list with the corresponding project_id, title, doneStatus and description values')
 def step_impl(context):
-    # print("response: ", context.response.json())
+
     assert context.response.json()['title'] == context.title
     assert context.response.json()['doneStatus'] == (str(context.doneStatus)).lower()
     assert context.response.json()['description'] == context.description

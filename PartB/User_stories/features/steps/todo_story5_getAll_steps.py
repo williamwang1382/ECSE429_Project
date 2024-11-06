@@ -22,12 +22,12 @@ def step_impl(context):
 
 
 # Alternate flow
-@when(u'I send a GET request to the Rest API without specifying a project_id value but I specify the XML format')
+@when(u'I send a GET request to the Rest API without specifying a project_id value but I specify the XML format and doneStatus as False')
 def step_impl(context):
-    response = requests.get(url, headers={"Accept": "application/xml"})
+    response = requests.get(url+"?doneStatus=false", headers={"Accept": "application/xml"})
     context.response = response
 
-
+# Since the default todos both have doneStatus as false, the todo list length should be 2 when there is no additonal todos
 @then(u'I should get all of the existing todo instances in the todo list with their corresponding project_id, title, doneStatus and description values in XML format')
 def step_impl(context):
     res = context.response.text
@@ -48,6 +48,6 @@ def step_impl(context):
 
 @then(u'I should not get any todo instances in the todo list')
 def step_impl(context):
-    print(context.response.json())
-    print(context.response.status_code)
+    print("Resulting JSON from Story test 5 Error flow: ", context.response.json())
+    print("Resulting status code from Story test 5 Error flow: ",context.response.status_code)
     assert context.response.json()['errorMessages'] != ""

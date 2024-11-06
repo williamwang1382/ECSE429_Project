@@ -21,8 +21,8 @@ As a user I want to be able to see a list of all the todo tasks that I have to c
 
 
     # Alternate flow
-    Scenario: Get all of the existing todo instances in XML format
-        When I send a GET request to the Rest API without specifying a project_id value but I specify the XML format
+    Scenario: Get all of the existing todo instances that have doneStatus as False in XML format
+        When I send a GET request to the Rest API without specifying a project_id value but I specify the XML format and doneStatus as False
         Then I should get all of the existing todo instances in the todo list with their corresponding project_id, title, doneStatus and description values in XML format
         And the API should have a return status code of 200
 

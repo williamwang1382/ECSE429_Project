@@ -79,5 +79,5 @@ def step_impl(context):
     response = requests.get(url)
     context.num_todos = len(response.json()['todos'])
     context.response = requests.delete(url + "/Hello World")
-    # print("STAUTS CODE VALL", context.response.status_code)
+
 
